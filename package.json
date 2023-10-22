@@ -23,15 +23,14 @@
   "bugs": "https://github.com/thepassle/custom-elements-ssr",
   "homepage": "",
   "scripts": {
-    "build": "pnpm terser dsd-polyfill.js -o dsd-polyfill.min.js",
+    "build": "vite build && pnpm tsc --noEmit",
     "test": "pnpm playwright test",
     "test-ui": "pnpm playwright test --ui"
   },
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./server.js": "./server.js",
-    "./dsd-polyfill.js": "./dsd-polyfill.js",
-    "./dsd-polyfill.min.js": "./dsd-polyfill.min.js"
+    "./dsd-polyfill.js": "./dist/dsd-polyfill.js"
   },
   "dependencies": {
     "@lit-labs/ssr": "^3.1.8",
@@ -40,6 +39,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.39.0",
-    "terser": "^5.22.0"
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
   }
 }
