@@ -1,4 +1,7 @@
-function getViteConfiguration() {
+import type { AstroIntegration } from 'astro';
+import type { UserConfig } from 'vite';
+
+function getViteConfiguration() : UserConfig {
   return {
     optimizeDeps: {
       include: [
@@ -28,11 +31,11 @@ Object.assign(globalThis, {
   CustomEvent: null
 });
 
-export default function customElements() {
+export default function (): AstroIntegration {
   return {
     name: "custom-elements-ssr",
     hooks: {
-      "astro:config:setup": ({ updateConfig, addRenderer, injectScript }) => {
+      "astro:config:setup": ({ updateConfig, addRenderer }) => {
 
         addRenderer({
           name: "custom-elements-ssr",

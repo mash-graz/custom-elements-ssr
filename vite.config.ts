@@ -5,10 +5,12 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/guide/build.html#library-mode
 export default defineConfig({
     build: {
+        sourcemap: true,
         lib: {
-            entry: resolve(__dirname, 'src/dsd-polyfill.ts'),
-            name: 'dsd-polyfill',
-            fileName: 'dsd-polyfill',
+            entry: {
+                'dsd-polyfill': 'src/dsd-polyfill.ts',
+                index: 'src/index.ts'
+            },
             formats: ['es'],
         },
     },
