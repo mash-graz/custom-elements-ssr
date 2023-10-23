@@ -23,9 +23,11 @@
   "bugs": "https://github.com/thepassle/custom-elements-ssr",
   "homepage": "",
   "scripts": {
-    "build": "vite build && pnpm tsc --noEmit",
+    "build": "vite build && pnpm tsc --noEmit && pnpm run docs",
     "test": "pnpm playwright test",
-    "test-ui": "pnpm playwright test --ui"
+    "test-ui": "pnpm playwright test --ui",
+    "docs": "pnpm typedoc --plugin typedoc-plugin-markdown --out docs src/*",
+    "docs-html": "pnpm typedoc --out docs-html src/*"
   },
   "exports": {
     ".": "./dist/index.js",
@@ -33,13 +35,17 @@
     "./dsd-polyfill.js": "./dist/dsd-polyfill.js"
   },
   "dependencies": {
+    "happy-dom": "^12.9.1",
+    "@happy-dom/global-registrator": "^12.9.1",
     "@lit-labs/ssr": "^3.1.8",
-    "linkedom": "^0.15.6",
+    "linkedom": "^0.16.0",
     "parse5": "^7.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.39.0",
     "astro": "^3.3.2",
+    "typedoc": "^0.25.2",
+    "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0"
   }
