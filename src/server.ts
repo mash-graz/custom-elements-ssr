@@ -1,13 +1,33 @@
-import './server-shim.js';
+import '../server-shim.js';
 import { DOMParser } from 'linkedom';
-import { CustomElementRender } from './CustomElementRenderer.js';
-import dsd_polyfill_url from './dsd-polyfill.min.js?url';
 
-async function check(tag) {
-  return !!customElements?.get?.(tag);
+// import { GlobalRegistrator } from '@happy-dom/global-registrator';
+// import { DOMParser } from 'happy-dom';
+
+import { CustomElementRender } from './CustomElementRenderer.js';
+import dsd_polyfill_url from 'custom-elements-ssr/dsd-polyfill.js?url';
+// const dsd_polyfill_url = new URL('./dsd-polyfill.js', import.meta.url).href;
+//const dsd_polyfill_url = 'custom-elements-ssr/dsd-polyfill.js';
+
+console.log('DSD_POLYFILL_URL:', dsd_polyfill_url); 
+
+/**
+ * A Check, if this plugin is responsible vor the given component
+ * realized by lookup for a registered custom element of this kind
+ * 
+ * @param tag 
+ * @returns 
+ */
+export async function check(tag: string): Promise<boolean> {
+  return !!customElements.get(tag);
 }
 
-async function* render(tag, attrs, children) {
+async function* render(
+  tag: any,
+  attrs: Record<string,string>,
+  children: Record<string, string>
+) {
+
   const instance = new CustomElementRender(tag);
 
   Object.entries(attrs).forEach(([k, v]) => {
@@ -15,7 +35,7 @@ async function* render(tag, attrs, children) {
   });
 
   if (children) {
-    const nodes = new DOMParser().parseFromString(children, 'text/html').childNodes;
+    const nodes = new DOMParser().parseFromString(children[0], 'text/html').childNodes;
     instance.element.append(...nodes);
   }
 
@@ -24,9 +44,9 @@ async function* render(tag, attrs, children) {
   yield `<${tag}`;
   yield* instance.renderAttributes();
   yield `>`;
-  const shadowContents = instance.renderShadow();
-  const shadow_content_top = shadowContents.next().value;
-  if (shadow_content_top !== undefined) {
+  const shadowContents = instance.renderShadowCollected();
+  const shadow_content_top = await shadowContents?.next().value;
+  if (shadow_content_top) {
     yield '<template shadowrootmode="open">';
     yield shadow_content_top;
     yield* shadowContents;
@@ -39,7 +59,11 @@ async function* render(tag, attrs, children) {
   yield `</${tag}>`;
 }
 
-async function renderToStaticMarkup(tag, attrs, children) {
+export async function renderToStaticMarkup(
+  tag: any, 
+  attrs: any, 
+  children: Record<string, string>
+  ) {
 
   // console.log('CHILDREN:', children);
 
@@ -51,4 +75,7 @@ async function renderToStaticMarkup(tag, attrs, children) {
   return { html };
 }
 
-export default { check, renderToStaticMarkup };
+export default {
+  check, 
+  renderToStaticMarkup
+}

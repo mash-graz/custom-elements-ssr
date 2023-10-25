@@ -9,6 +9,7 @@ export default defineConfig({
         lib: {
             entry: {
                 'dsd-polyfill': 'src/dsd-polyfill.ts',
+                'server': 'src/server.ts',
                 index: 'src/index.ts'
             },
             formats: ['es'],

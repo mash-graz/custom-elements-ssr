@@ -31,7 +31,7 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./server.js": "./server.js",
+    "./server.js": "./dist/server.js",
     "./dsd-polyfill.js": "./dist/dsd-polyfill.js"
   },
   "dependencies": {
