@@ -1,5 +1,6 @@
 import type { AstroIntegration } from 'astro';
 import type { UserConfig } from 'vite';
+import inject_polyfill from './inject-dsd-polyfill.js';
 
 function getViteConfiguration() : UserConfig {
   return {
@@ -9,13 +10,13 @@ function getViteConfiguration() : UserConfig {
       ],
     },
     build: {
-      assetsInlineLimit: 0,
     },
     ssr: {
       external: [
         "linkedom",
       ],
-    }
+    },
+    plugins: [inject_polyfill()],
   };
 }
 
@@ -45,7 +46,7 @@ export default function (): AstroIntegration {
         updateConfig({
           vite: getViteConfiguration()
         });
-      }
+      },
     }
   };
 }

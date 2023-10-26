@@ -5,11 +5,6 @@ import { DOMParser } from 'linkedom';
 // import { DOMParser } from 'happy-dom';
 
 import { CustomElementRender } from './CustomElementRenderer.js';
-import dsd_polyfill_url from 'custom-elements-ssr/dsd-polyfill.js?url';
-// const dsd_polyfill_url = new URL('./dsd-polyfill.js', import.meta.url).href;
-//const dsd_polyfill_url = 'custom-elements-ssr/dsd-polyfill.js';
-
-console.log('DSD_POLYFILL_URL:', dsd_polyfill_url); 
 
 /**
  * A Check, if this plugin is responsible vor the given component
@@ -51,7 +46,7 @@ async function* render(
     yield shadow_content_top;
     yield* shadowContents;
     yield '</template>';
-    yield `<script type="module" src="${dsd_polyfill_url}"></script>`;
+    yield '<script type="module" src="/dsd-polyfill.js"></script>';
   }
   if (children)
     yield* instance.renderSlots(children);
