@@ -2,9 +2,14 @@
  * Rollup/Vite plugin injecting the DSD-polyfill
  * 
  * This is a workaround to by bypass some issues related
- * to vites limited asset handling (no file emit in lib mode) 
- * and the fact, that endusers may overwrite those settings, 
- * required for utilizing the import ...?url mechanism.   
+ * to vites limited asset handling (no file emit in lib mode)
+ * and the fact, that endusers may overwrite those settings,
+ * required for utilizing the `import ...?url` mechanism.
+ * 
+ * The injected polyfill and mapfile are located at the URLs:  
+ * `/dsd-polyfill.js` and `/dsd-polyfill.js.map`
+ * 
+ * @module   
  */
 
 import dsd_polyfill_raw from '../dist/dsd-polyfill.js?raw';

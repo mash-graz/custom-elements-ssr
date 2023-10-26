@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-// Test if Astro is working in all three operation modes
-// using this integration module
+// Test if Astro and the inject-dsd-polyfill plugin is 
+// working in all three operation modee utilizing this 
+// integration module
 
 test('Astro Zero-JS', async ({ page }) => {
   await page.goto('/');
@@ -16,6 +17,11 @@ test('Astro Zero-JS', async ({ page }) => {
     () => document.querySelectorAll("script").length);
   expect.soft(script_tags,
     'Number of scripts should be Zero').toEqual(0);
+
+  // inject polyfill plugin operation
+  await page.goto('/dsd-polyfill.js');
+  await expect(page.getByText('sourceMappingURL=dsd-polyfill.js'),
+    'Should show polyfill JS').toContainText(/polyfill/);
 });
 
 
@@ -32,6 +38,10 @@ test('Astro Dev-Server', async ({ page }) => {
     () => document.querySelectorAll("script").length);
   expect.soft(script_tags,
     'Number of scripts should be One for Dev-Server').toEqual(1);
+
+  await page.goto('localhost:4322/dsd-polyfill.js');
+  await expect(page.getByText('sourceMappingURL=dsd-polyfill.js'),
+    'Should show polyfill JS').toContainText(/polyfill/);
 });
 
 test('Astro SSR-Server', async ({ page }) => {
@@ -47,4 +57,8 @@ test('Astro SSR-Server', async ({ page }) => {
     () => document.querySelectorAll("script").length);
   expect.soft(script_tags,
     'Number of scripts should be Zero').toEqual(0);
+
+  await page.goto('localhost:4322/dsd-polyfill.js');
+  await expect(page.getByText('sourceMappingURL=dsd-polyfill.js'),
+    'Should show polyfill JS').toContainText(/polyfill/);
 });
